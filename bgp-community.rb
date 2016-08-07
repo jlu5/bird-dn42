@@ -9,14 +9,32 @@
 require 'open3'
 require 'optparse'
 
+def which(cmd)
+  exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+  ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+    exts.each do |ext|
+      exe = File.join(path, "#{cmd}#{ext}")
+      if File.executable?(exe) && !File.directory?(exe)
+        return exe
+      end
+    end
+  end
+  return nil
+end
+
 def ping(host, ipv6)
   print "Try to ping #{host}... (timeout 10s)"
   ping = if host =~ /:/ || ipv6
-           "ping6"
+           if which("ping6")
+             ["ping6"]
+           else
+             ["ping", "-6"]
+           end
          else
-           "ping"
+           ["ping"]
          end
-  out, status = Open3.capture2e(ping, "-W10", "-c5", host)
+  cmd = ping + ["-W10", "-c5", host]
+  out, status = Open3.capture2e(*cmd)
   print "\r"
   if status != 0
     abort "ping failed with: #{status}\n#{out}"
@@ -94,8 +112,8 @@ def main(args)
 
   host, mbit_speed, crypto_type = args
 
-  speed_value   = speed_class(mbit_speed)
-  crypto_value  = crypto_class(crypto_type)
+  speed_value  = speed_class(mbit_speed)
+  crypto_value = crypto_class(crypto_type)
   latency = ping(host, options[:ipv6])
   latency_value = latency_class(latency)
   date = Time.now.strftime("%Y-%m-%d")

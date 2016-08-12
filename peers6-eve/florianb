@@ -1,6 +1,6 @@
 protocol bgp florianb from dnpeers {
-  neighbor fe80::93 % 'florianb' as 4242423955;
-  # 77 ms, 100 mbit/s, encrypted tunnel (updated: 2016-02-15)
-  import where dn42_import_filter(4,24,33);
-  export where dn42_export_filter(4,24,33);
+  neighbor fe80::8114 % 'evenet' as 4242423955;
+  # 12 ms, 1000 mbit/s, encrypted tunnel (updated: 2016-03-24)
+  import where dn42_import_filter(3,25,33);
+  export where dn42_export_filter(3,25,33);
 };

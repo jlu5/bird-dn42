@@ -1,0 +1,7 @@
+protocol bgp gruetzkopf from dnpeers {
+  neighbor fe80::1 % 'wg0' as 4242420442;
+
+  # 5 ms, 1000 mbit/s, pfs tunnel (updated: 2016-08-08)
+  import where dn42_import_filter(2,25,34);
+  export where dn42_export_filter(2,25,34);
+};

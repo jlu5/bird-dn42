@@ -1,0 +1,6 @@
+protocol bgp elephant from dnpeers {
+  neighbor 172.22.150.121 as 4242420031;
+  # 14 ms, 1000 mbit/s, encrypted tunnel (updated: 2016-08-05)
+  import where dn42_import_filter(3,25,33);
+  export where dn42_export_filter(3,25,33);
+};

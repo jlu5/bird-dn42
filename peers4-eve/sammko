@@ -1,0 +1,6 @@
+protocol bgp sammko from dnpeers {
+  neighbor 192.168.92.8 as 4242422357;
+  # 21 ms, 100 mbit/s, pfs tunnel (updated: 2016-07-22)
+  import where dn42_import_filter(3,24,34);
+  export where dn42_export_filter(3,24,34);
+};

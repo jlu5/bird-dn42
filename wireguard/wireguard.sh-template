@@ -1,0 +1,16 @@
+#!/bin/sh
+
+OWN_IP4=""
+OWN_IP6=""
+PRIVATE_KEY=""
+INTERFACE_PREFIX=""
+
+peers() {
+  action="$1"
+  ## usage
+  #"$action" "<local_port>" "<peer_name>" "<peer_public_key>" "<peer_host:port>" "<peer_ip4>" "<peer_ip6>"
+  ## example:
+  #"$action" "4242" "gruetzkopf" "HsPvddOJbSIS8LogJMpMTDG+IHm9eXfHCfapw9cRPAM=" "daemon.gruetzkopf.org:42232" "172.20.239.112/32" ""
+}
+
+. "$(dirname $(readlink -f "$0"))/functions.sh"

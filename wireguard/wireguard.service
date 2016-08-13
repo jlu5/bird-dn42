@@ -1,0 +1,11 @@
+[Unit]
+Description=Wireguard vpn
+
+[Service]
+Type=oneshot
+ExecStart=/etc/bird/wireguard/wireguard.sh start
+ExecStop=/etc/bird/wireguard/wireguard.sh stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

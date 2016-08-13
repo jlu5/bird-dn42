@@ -4,3 +4,4 @@ local6.conf
 peers4
 peers6
 registry
+wireguard/wireguard.sh

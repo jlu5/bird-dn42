@@ -4,7 +4,7 @@ set -eu
 
 add() {
   listen_port="$1"
-  name="${INTERFACE_PREFIX}$2"
+  name="$2"
   public_key="$3"
   endpoint="$4"
   ip4="$5"
@@ -13,11 +13,11 @@ add() {
   ip link add dev "$name" type wireguard
 
   echo "$PRIVATE_KEY" | wg set "$name" \
-    listen-port "$listen_port" \
     private-key /dev/stdin \
     peer "$public_key" \
     allowed-ips "0.0.0.0/0,::/0" \
-    $( [[ -n "$endpoint" ]] && echo "endpoint $endpoint")
+    $([[ -n "$listen_port" ]] && echo "listen-port $listen_port") \
+    $([[ -n "$endpoint" ]] && echo "endpoint $endpoint")
 
   ip link set dev "$name" up
 
@@ -32,10 +32,8 @@ add() {
   [ -n "$ip6" ] && ip route add "$ip6" dev "$name"
 }
 del() {
-  name="${INTERFACE_PREFIX}$2"
-  if ip link | grep -q "$name"; then
-    ip link del "${INTERFACE_PREFIX}$2"
-  fi
+  name="$2"
+  ip link | grep -q "$name" && ip link del "$name" || true
 }
 
 case "${1:-}" in

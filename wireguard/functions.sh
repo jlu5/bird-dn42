@@ -16,8 +16,8 @@ add() {
     private-key /dev/stdin \
     peer "$public_key" \
     allowed-ips "0.0.0.0/0,::/0" \
-    $([[ -n "$listen_port" ]] && echo "listen-port $listen_port") \
-    $([[ -n "$endpoint" ]] && echo "endpoint $endpoint")
+    $([ -n "$listen_port" ] && echo "listen-port $listen_port") \
+    $([ -n "$endpoint" ] && echo "endpoint $endpoint")
 
   ip link set dev "$name" up
 

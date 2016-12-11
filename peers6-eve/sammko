@@ -1,6 +1,6 @@
 protocol bgp sammko from dnpeers {
   neighbor fe80::4096 % 'evenet' as 4242422357;
-  # 21 ms, 100 mbit/s, pfs tunnel (updated: 2016-07-22)
+  # 20 ms, 100 mbit/s, pfs tunnel (updated: 2016-12-11)
   import where dn42_import_filter(3,24,34);
   export where dn42_export_filter(3,24,34);
 };

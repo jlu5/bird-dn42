@@ -13,7 +13,7 @@ add() {
   ip link add dev "$name" type wireguard
 
   echo "$PRIVATE_KEY" | wg set "$name" \
-    $([[ -n "$listen_port" ]] && echo "listen-port $listen_port") \
+    $([ -n "${listen_port+x}" ] && echo "listen-port $listen_port") \
     private-key /dev/stdin \
     peer "$public_key" \
     allowed-ips "0.0.0.0/0,::/0" \
@@ -21,14 +21,17 @@ add() {
 
   ip link set dev "$name" up
 
-  if [ -n "$OWN_IP4" ]; then
-    if [ -n "$ip4" ]; then
-      ip addr add "$OWN_IP4" dev "$name" peer "$ip4"
-    else
-      ip addr add "$OWN_IP4" dev "$name"
+  if [ -n "${OWN_IP4+x}" ]; then
+    add_addr="ip addr add $OWN_IP4 dev $name"
+    if [ -n "${ip4}" ]; then
+      add_addr="$add_addr peer $ip4"
     fi
+    if [ -n "${OWN_IP4_LIFETIME+x}" ]; then
+      add_addr="$add_addr preferred ${OWN_IP4_LIFETIME} scope link"
+    fi
+    eval $add_addr
   fi
-  if [ -n "$OWN_IP6" ]; then
+  if [ -n "${OWN_IP6+x}" ]; then
     ip addr add "$OWN_IP6" dev "$name"
   fi
   if [ -n "$ip6" ]; then
@@ -56,4 +59,5 @@ restart)
 *)
   echo "USAGE: $0 start|restart|stop" >&2
   exit 1
+  ;;
 esac

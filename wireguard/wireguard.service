@@ -1,6 +1,9 @@
 [Unit]
 Description=Wireguard vpn
 StartLimitIntervalSec=0
+# when resolving remote endpoint addresses
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=simple

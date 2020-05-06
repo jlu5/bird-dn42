@@ -9,6 +9,7 @@ add() {
   endpoint="$4"
   ip4="$5"
   ip6="$6"
+  own_ip6="${7:-$OWN_IP6}"
   del "$@"
   ip link add dev "$name" type wireguard
 
@@ -31,8 +32,8 @@ add() {
     fi
     eval $add_addr
   fi
-  if [ -n "${OWN_IP6+x}" ]; then
-    add_addr6="ip addr add $OWN_IP6 dev $name"
+  if [ -n "${own_ip6+x}" ]; then
+    add_addr6="ip addr add $own_ip6 dev $name"
     if [ -n "$ip6" ]; then
       add_addr6="$add_addr6 peer $ip6"
     fi

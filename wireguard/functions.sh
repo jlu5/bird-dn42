@@ -32,10 +32,11 @@ add() {
     eval $add_addr
   fi
   if [ -n "${OWN_IP6+x}" ]; then
-    ip addr add "$OWN_IP6" dev "$name"
-  fi
-  if [ -n "$ip6" ]; then
-    ip route add "$ip6" dev "$name"
+    add_addr6="ip addr add $OWN_IP6 dev $name"
+    if [ -n "$ip6" ]; then
+      add_addr6="$add_addr6 peer $ip6"
+    fi
+    eval $add_addr6
   fi
 }
 del() {
